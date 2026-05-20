@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Wifi,
   Car,
@@ -24,7 +24,7 @@ import heroImg from "@/assets/hero-suite.jpg";
 import suite1 from "@/assets/suite-1.jpg";
 import suite2 from "@/assets/suite-2.jpg";
 import suite3 from "@/assets/suite-3.jpg";
-import { shuffleProperties, buildBookingUrl, type Property } from "@/config/properties";
+import { properties, shuffleProperties, buildBookingUrl, type Property } from "@/config/properties";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -153,8 +153,11 @@ function Hero() {
 }
 
 function Suites() {
-  // Randomize on every refresh — useMemo with no deps runs once per mount
-  const items = useMemo(() => shuffleProperties(), []);
+  // Render stable order on SSR, then shuffle on the client to avoid hydration mismatch
+  const [items, setItems] = useState<Property[]>(properties);
+  useEffect(() => {
+    setItems(shuffleProperties());
+  }, []);
   return (
     <section id="suites" className="py-24 bg-background">
       <div className="mx-auto max-w-7xl px-6">
