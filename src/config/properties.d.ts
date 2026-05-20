@@ -14,4 +14,8 @@ export interface Property {
 }
 export const properties: Property[];
 export const shuffleProperties: () => Property[];
-export const buildBookingUrl: (wId: string, wTkn: string) => string;
+export interface BookingOptions {
+  checkIn?: string;
+  stayLength?: number;
+}
+export const buildBookingUrl: (wId: string, wTkn: string, options?: BookingOptions) => string;
