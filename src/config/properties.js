@@ -2,9 +2,14 @@ import suite1 from "@/assets/suite-1.jpg";
 import suite2 from "@/assets/suite-2.jpg";
 import suite3 from "@/assets/suite-3.jpg";
 
-// Freetobook booking widget URL builder
-export const buildBookingUrl = (wId, wTkn) =>
-  `https://book.freetobook.com/?wId=${wId}&wTkn=${wTkn}`;
+// Freetobook portal booking URL builder.
+// Optionally appends checkIn (YYYY-MM-DD) and stayLength (nights) when provided.
+export const buildBookingUrl = (wId, wTkn, { checkIn, stayLength } = {}) => {
+  const params = new URLSearchParams({ w_id: String(wId), w_tkn: String(wTkn) });
+  if (checkIn) params.append("checkIn", checkIn);
+  if (stayLength) params.append("stayLength", String(stayLength));
+  return `https://portal.freetobook.com/reservations?${params.toString()}`;
+};
 
 export const properties = [
   {
