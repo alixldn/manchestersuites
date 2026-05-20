@@ -24,7 +24,7 @@ import heroImg from "@/assets/hero-suite.jpg";
 import suite1 from "@/assets/suite-1.jpg";
 import suite2 from "@/assets/suite-2.jpg";
 import suite3 from "@/assets/suite-3.jpg";
-import { shuffleProperties, buildBookingUrl } from "@/config/properties";
+import { shuffleProperties, buildBookingUrl, type Property } from "@/config/properties";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -178,7 +178,7 @@ function Suites() {
   );
 }
 
-function SuiteCard({ p }: { p: ReturnType<typeof shuffleProperties>[number] }) {
+function SuiteCard({ p }: { p: Property }) {
   const href = buildBookingUrl(p.wId, p.wTkn);
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm border border-border flex flex-col">
