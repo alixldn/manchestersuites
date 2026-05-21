@@ -24,7 +24,6 @@ export const properties = [
     size: "45m²",
     wId: "51136",
     features: ["Fast WiFi", "Free Parking", "Smart TV", "Full Kitchen", "Roof Lounge", "Communal Lobby Area"],
-  ...
     wTkn: "YjqTdY7DQXvKiQLFXO5iwMh9SsI57AjAhc0w8SRPmg9y5EV4H2cqvcpTsMUZS",
   },
   {
@@ -37,7 +36,7 @@ export const properties = [
     beds: 2,
     baths: 1,
     size: "45m²",
-    features: ["Free Wi-Fi", "Free Parking", "Smart TV", "Full Kitchen", "Ensuite", "Non-Smoking"],
+    features: ["Fast WiFi", "Free Parking", "Smart TV", "Full Kitchen", "Roof Lounge", "Communal Lobby Area"],
     wId: "51137",
     wTkn: "g55Rw37uc69AvZfAdvOQUIHlhNJdrI6zeNKnegjbQwDFy6ZoxlA1TbPZXgsYq",
   },
@@ -51,7 +50,7 @@ export const properties = [
     beds: 2,
     baths: 1,
     size: "45m²",
-    features: ["Free Wi-Fi", "Free Parking", "Smart TV", "Full Kitchen", "Ensuite", "Non-Smoking"],
+    features: ["Fast WiFi", "Free Parking", "Smart TV", "Full Kitchen", "Roof Lounge", "Communal Lobby Area"],
     wId: "51064",
     wTkn: "pgeudzTyAB8Sv85wLebZAsZW50ieoUr6LW8AHOGs08wRaSukIPkQPsINV8eI2",
   },
