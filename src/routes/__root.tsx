@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Trafford Suites | Manchester" },
+      { name: "description", content: "A React and Tailwind CSS application that rebuilds a website's layout and design, featuring property listings with booking integration." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Trafford Suites | Manchester" },
+      { property: "og:description", content: "A React and Tailwind CSS application that rebuilds a website's layout and design, featuring property listings with booking integration." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Trafford Suites | Manchester" },
+      { name: "twitter:description", content: "A React and Tailwind CSS application that rebuilds a website's layout and design, featuring property listings with booking integration." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/4KLPlsF7nRTrrCpQqxaj0JLoFF43/social-images/social-1779370757195-DSC05440.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/4KLPlsF7nRTrrCpQqxaj0JLoFF43/social-images/social-1779370757195-DSC05440.webp" },
     ],
     links: [
       {
