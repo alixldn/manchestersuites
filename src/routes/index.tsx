@@ -57,6 +57,13 @@ function Index() {
 
 function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   const links = [
     { href: "#suites", label: "SUITES" },
     { href: "#location", label: "LOCATION" },
@@ -64,15 +71,29 @@ function Header() {
     { href: "#contact", label: "CONTACT" },
   ];
   return (
-    <header className="absolute top-0 left-0 right-0 z-30">
+    <header
+      className={`fixed top-0 left-0 right-0 z-30 transition-colors duration-300 ${
+        scrolled ? "bg-white/95 backdrop-blur shadow-sm" : "bg-transparent"
+      }`}
+    >
       <div className="mx-auto max-w-7xl px-6 py-5 flex items-center justify-between">
-        <a href="#" className="text-white">
+        <a href="#" className={scrolled ? "text-black" : "text-white"}>
           <div className="font-display text-lg leading-tight font-semibold tracking-wide">
             Trafford Garden Suites
           </div>
-          <div className="text-[10px] tracking-[0.25em] opacity-80">APARTMENTS BY HVL</div>
+          <div
+            className={`text-[10px] tracking-[0.25em] ${
+              scrolled ? "text-secondary opacity-100" : "opacity-80"
+            }`}
+          >
+            APARTMENTS BY HVL
+          </div>
         </a>
-        <nav className="hidden md:flex items-center gap-8 text-xs tracking-[0.2em] text-white/90">
+        <nav
+          className={`hidden md:flex items-center gap-8 text-xs tracking-[0.2em] ${
+            scrolled ? "text-sage-dark" : "text-white/90"
+          }`}
+        >
           {links.map((l) => (
             <a key={l.href} href={l.href} className="hover:text-secondary transition-colors">
               {l.label}
@@ -86,7 +107,7 @@ function Header() {
           </a>
         </nav>
         <button
-          className="md:hidden text-white p-2"
+          className={`md:hidden p-2 ${scrolled ? "text-black" : "text-white"}`}
           onClick={() => setOpen((o) => !o)}
           aria-label="Menu"
         >
