@@ -41,6 +41,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  useScrollReveal();
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       <Header />
@@ -53,6 +54,29 @@ function Index() {
       <Footer />
     </div>
   );
+}
+
+function useScrollReveal() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const el = e.target as HTMLElement;
+            const delay = el.dataset.delay;
+            if (delay) el.style.animationDelay = `${delay}ms`;
+            el.classList.add("is-visible");
+            io.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 }
 
 function Header() {
@@ -182,7 +206,7 @@ function Suites() {
   return (
     <section id="suites" className="py-24 bg-background">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="text-center mb-14">
+        <div className="text-center mb-14 reveal">
           <p className="text-secondary text-xs tracking-[0.3em] mb-3">OUR COLLECTION</p>
           <h2 className="font-display text-4xl md:text-5xl text-sage-dark mb-4">
             Three Exceptional Suites
@@ -193,8 +217,10 @@ function Suites() {
           </p>
         </div>
         <div className="grid md:grid-cols-3 gap-7">
-          {items.map((p) => (
-            <SuiteCard key={p.id} p={p} />
+          {items.map((p, i) => (
+            <div key={p.id} className="reveal" data-delay={i * 120}>
+              <SuiteCard p={p} />
+            </div>
           ))}
         </div>
       </div>
@@ -276,13 +302,17 @@ function Gallery() {
   return (
     <section className="py-24 bg-sage-soft">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 reveal">
           <p className="text-secondary text-xs tracking-[0.3em] mb-3">INSIDE THE SUITES</p>
           <h2 className="font-display text-4xl md:text-5xl text-sage-dark">Designed for Comfort</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {imgs.map((src, i) => (
-            <div key={i} className="aspect-[4/3] rounded-md overflow-hidden">
+            <div
+              key={i}
+              className="aspect-[4/3] rounded-md overflow-hidden reveal"
+              data-delay={i * 100}
+            >
               <img
                 src={src}
                 alt={`Suite ${i + 1}`}
@@ -307,7 +337,7 @@ function Location() {
   return (
     <section id="location" className="py-24 bg-background">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 reveal">
           <p className="text-secondary text-xs tracking-[0.3em] mb-3">PRIME POSITION</p>
           <h2 className="font-display text-4xl md:text-5xl text-sage-dark mb-4">The Location</h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
@@ -316,7 +346,7 @@ function Location() {
           </p>
         </div>
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="rounded-lg overflow-hidden border border-border min-h-[360px]">
+          <div className="rounded-lg overflow-hidden border border-border min-h-[360px] reveal">
             <iframe
               title="Trafford Garden Suites location"
               src="https://www.google.com/maps?q=Trafford+Gardens,+Old+Trafford,+Manchester&output=embed"
@@ -327,10 +357,11 @@ function Location() {
             />
           </div>
           <div className="flex flex-col gap-3">
-            {spots.map(({ Icon, name, detail }) => (
+            {spots.map(({ Icon, name, detail }, i) => (
               <div
                 key={name}
-                className="flex items-center gap-4 bg-sage-soft rounded-md p-4 border border-border"
+                className="flex items-center gap-4 bg-sage-soft rounded-md p-4 border border-border reveal"
+                data-delay={i * 100}
               >
                 <div className="w-10 h-10 rounded-md bg-white flex items-center justify-center text-secondary">
                   <Icon size={18} />
@@ -367,7 +398,7 @@ function HotelQuality() {
   return (
     <section id="about" className="py-24 bg-sage-soft">
       <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-12">
-        <div>
+        <div className="reveal">
           <p className="text-secondary text-xs tracking-[0.3em] mb-3">MANAGED WITH EXCELLENCE</p>
           <h2 className="font-display text-4xl md:text-5xl text-sage-dark mb-6">
             Hotel Quality,
@@ -375,7 +406,8 @@ function HotelQuality() {
             <span className="italic">Apartment Freedom</span>
           </h2>
           <p className="text-muted-foreground mb-4">
-            Trafford Garden Suites are professionally managed by Hotel Ventures Ltd, a dynamic
+            Trafford Garden Suites are professionally managed by{" "}
+            <span className="text-secondary font-semibold">Hotel Ventures</span>, a dynamic
             hospitality management company with a portfolio of 16+ hotels across the UK. We bring
             the rigour of hotel operations — cleaning protocols, guest support, and quality
             standards — to the comfort and space of a private apartment.
@@ -387,8 +419,12 @@ function HotelQuality() {
           </p>
         </div>
         <div className="grid sm:grid-cols-2 gap-4">
-          {features.map(({ Icon, title, text }) => (
-            <div key={title} className="bg-white p-5 rounded-md border border-border">
+          {features.map(({ Icon, title, text }, i) => (
+            <div
+              key={title}
+              className="bg-white p-5 rounded-md border border-border reveal"
+              data-delay={i * 100}
+            >
               <div className="w-9 h-9 rounded-md bg-sky-soft text-secondary flex items-center justify-center mb-3">
                 <Icon size={18} />
               </div>
