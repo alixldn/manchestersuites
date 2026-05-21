@@ -227,16 +227,18 @@ function SuiteCard({ p }: { p: Property }) {
 
 function AmenitiesBar() {
   const items = [
-    { Icon: Wifi, label: "HIGH-SPEED WI-FI" },
+    { Icon: Wifi, label: "FAST WIFI" },
     { Icon: Car, label: "FREE PARKING" },
     { Icon: ChefHat, label: "FULL KITCHEN" },
     { Icon: Tv, label: "SMART TV" },
     { Icon: ShieldCheck, label: "SECURE ENTRY" },
     { Icon: Sparkles, label: "HOTEL-STANDARD CLEAN" },
+    { Icon: Sparkles, label: "ROOF LOUNGE" },
+    { Icon: Building2, label: "COMMUNAL LOBBY AREA" },
   ];
   return (
     <section className="bg-sage py-8">
-      <div className="mx-auto max-w-7xl px-6 grid grid-cols-2 md:grid-cols-6 gap-6 text-white">
+      <div className="mx-auto max-w-7xl px-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6 text-white">
         {items.map(({ Icon, label }) => (
           <div key={label} className="flex flex-col items-center gap-2 text-center">
             <Icon size={22} className="text-secondary" />
@@ -296,9 +298,11 @@ function Location() {
           <div className="rounded-lg overflow-hidden border border-border min-h-[360px]">
             <iframe
               title="Trafford Garden Suites location"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=-2.305%2C53.456%2C-2.275%2C53.475&layer=mapnik&marker=53.4655%2C-2.291"
-              className="w-full h-full min-h-[360px]"
+              src="https://www.google.com/maps?q=Trafford+Gardens,+Old+Trafford,+Manchester&output=embed"
+              className="w-full h-full min-h-[360px] border-0"
               loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
             />
           </div>
           <div className="flex flex-col gap-3">
