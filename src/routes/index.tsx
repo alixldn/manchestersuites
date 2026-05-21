@@ -375,7 +375,8 @@ function HotelQuality() {
             <span className="italic">Apartment Freedom</span>
           </h2>
           <p className="text-muted-foreground mb-4">
-            Trafford Garden Suites are professionally managed by Hotel Ventures Ltd, a dynamic
+            Trafford Garden Suites are professionally managed by{" "}
+            <span className="text-secondary font-semibold">Hotel Ventures</span>, a dynamic
             hospitality management company with a portfolio of 16+ hotels across the UK. We bring
             the rigour of hotel operations — cleaning protocols, guest support, and quality
             standards — to the comfort and space of a private apartment.
