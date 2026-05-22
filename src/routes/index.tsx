@@ -19,7 +19,12 @@ import {
   Mail,
   Menu,
   X,
+  CalendarIcon,
 } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import heroImg from "@/assets/hero-suite.jpg";
 import suite1 from "@/assets/suite-1.jpg";
 import suite2 from "@/assets/suite-2.jpg";
@@ -229,7 +234,13 @@ function Suites() {
 }
 
 function SuiteCard({ p }: { p: Property }) {
-  const href = buildBookingUrl(p.wId, p.wTkn);
+  const [checkIn, setCheckIn] = useState<Date | undefined>(undefined);
+  const [nights, setNights] = useState<number>(1);
+  const checkInStr = checkIn ? format(checkIn, "yyyy-MM-dd") : undefined;
+  const href = buildBookingUrl(p.wId, p.wTkn, {
+    checkIn: checkInStr,
+    nights: checkInStr ? nights : undefined,
+  });
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm border border-border flex flex-col">
       <div className="relative h-56">
@@ -259,13 +270,65 @@ function SuiteCard({ p }: { p: Property }) {
             </span>
           ))}
         </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="flex flex-col gap-1">
+            <label className="text-[10px] tracking-[0.2em] text-muted-foreground">CHECK-IN</label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  className={cn(
+                    "h-9 px-3 rounded-md border border-border bg-white text-left text-xs flex items-center gap-2 hover:border-secondary transition",
+                    !checkIn && "text-muted-foreground",
+                  )}
+                >
+                  <CalendarIcon size={14} className="text-secondary" />
+                  {checkIn ? format(checkIn, "d MMM yyyy") : "Pick a date"}
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={checkIn}
+                  onSelect={setCheckIn}
+                  disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0))}
+                  initialFocus
+                  className={cn("p-3 pointer-events-auto")}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-[10px] tracking-[0.2em] text-muted-foreground">NIGHTS</label>
+            <select
+              value={nights}
+              onChange={(e) => setNights(Number(e.target.value))}
+              className="h-9 px-2 rounded-md border border-border bg-white text-xs hover:border-secondary transition focus:outline-none focus:ring-1 focus:ring-secondary"
+            >
+              {Array.from({ length: 60 }, (_, i) => i + 1).map((n) => (
+                <option key={n} value={n}>
+                  {n} {n === 1 ? "night" : "nights"}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <a
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-auto block text-center bg-secondary hover:bg-secondary/90 text-secondary-foreground py-3 rounded-md text-xs tracking-[0.25em] font-semibold transition"
+          aria-disabled={!checkIn}
+          onClick={(e) => {
+            if (!checkIn) e.preventDefault();
+          }}
+          className={cn(
+            "mt-auto block text-center py-3 rounded-md text-xs tracking-[0.25em] font-semibold transition",
+            checkIn
+              ? "bg-secondary hover:bg-secondary/90 text-secondary-foreground"
+              : "bg-secondary/40 text-secondary-foreground cursor-not-allowed",
+          )}
         >
-          CHECK AVAILABILITY
+          BOOK NOW
         </a>
       </div>
     </div>
