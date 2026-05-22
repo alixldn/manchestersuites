@@ -2,13 +2,22 @@ import suite1 from "@/assets/suite-1.jpg";
 import suite2 from "@/assets/suite-2.jpg";
 import suite3 from "@/assets/suite-3.jpg";
 
-// Freetobook portal booking URL builder.
-// Optionally appends checkIn (YYYY-MM-DD) and stayLength (nights) when provided.
-export const buildBookingUrl = (wId, wTkn, { checkIn, stayLength } = {}) => {
-  const params = new URLSearchParams({ w_id: String(wId), w_tkn: String(wTkn) });
-  if (checkIn) params.append("checkIn", checkIn);
-  if (stayLength) params.append("stayLength", String(stayLength));
-  return `https://portal.freetobook.com/reservations?${params.toString()}`;
+// Booking-Directly widget URL builder.
+// Builds a URL with check-in/check-out dates and occupancy that drives the
+// availability search directly. checkIn is YYYY-MM-DD; nights is an integer (1-60).
+const addDays = (isoDate, days) => {
+  const d = new Date(`${isoDate}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+};
+
+export const buildBookingUrl = (wId, wTkn, { checkIn, nights, adults = 4 } = {}) => {
+  const base = `https://booking-directly.com/widgets/${wTkn}/properties/unit-selection`;
+  if (!checkIn || !nights) return base;
+  const checkOut = addDays(checkIn, Number(nights));
+  const stayDates = JSON.stringify({ checkInDate: checkIn, checkOutDate: checkOut });
+  const occupancies = JSON.stringify([{ numberOfAdults: adults, children: [] }]);
+  return `${base}?search_stay_dates=${encodeURIComponent(stayDates)}&search_occupancies=${encodeURIComponent(occupancies)}`;
 };
 
 export const properties = [
